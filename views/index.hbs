@@ -4,11 +4,15 @@
 </div>
 <div id="userLocation">
     <h3>Get Your Location Coordinates</h3>
-    <form action="/addressCoords" method="get">
-        <button id="address-coords">Address Location</button><span id="show-address-coords"></span>
-        <input id="address-input" type="text" name="address" placeholder="enter an address">
-    </form><br>
-    <button id="user-coords">Your Geo Location</button><span id="show-user-coords"></span>
+    <button id="address-coords">Enter Address</button>
+    <input id="address-input" type="text" name="address" placeholder="enter address">
+    <br><p id="show-address-coords"></p>
+    <button id="check-address-reverse">Check Address</button>
+    <br><p id="show-address-reverse"></p>
+    <button id="user-coords">Get Geo Location</button>
+    <br><p id="user-coords-text"></p>
+    <button id="user-coords-address">Get Geo Address</button>
+    <br><p id="show-user-coords-address"></p><br>
 </div>
 <div id="save-data">
     <h3>Save A Location</h3>
@@ -33,7 +37,11 @@
             <label for="zip">Zip :</label>
             <input type="text" id="zip" name="zip">
         </div>
-        <button id="submit-data" type="submit">Save Location</button>
+        <div class="input">
+            <label for="geo">Geo :</label>
+            <input type="text" id="geo" name="geo">
+        </div>
+        <p><button id="submit-data" type="submit">Save Location</button></p>
     </form>
 </div>
 <div id="list-data">
@@ -44,17 +52,22 @@
     <section id="add-data">
         {{# each locations}}
             <article>
-                <div><br></div>
-                <div>Name: {{ this.name }}</div>
-                <div>Street: {{ this.street }}</div>
-                <div>City: {{ this.city }}</div>
-                <div>State: {{ this.state }}</div>
-                <div>Zip: {{ this.zip }}</div>
-                <div><br></div>
-                <form action="/get-data/{{this._id}}/delete" method="post">
-                    <button id="delete" name="delete" value={{this._id}}>Delete</button>
-                </form>
-                <div><br></div>
+                <div class="leftFrame">
+                    <div><br></div>
+                    <div>Name: {{ this.name }}</div>
+                    <div>Street: {{ this.street }}</div>
+                    <div>City: {{ this.city }}</div>
+                    <div>State: {{ this.state }}</div>
+                    <div>Zip: {{ this.zip }}</div>
+                    <div><br></div>
+                    <form action="/get-data/{{this._id}}/delete" method="post">
+                        <button id="delete" name="delete" value={{this._id}}>Delete</button>
+                    </form>
+                </div>
+                <div class="rightFrame">
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{this.geo.lat}},{{this.geo.lng}}&zoom=15&size=400x200&markers=color:blue%7Clabel:{{this.name}}%7C{{this.geo.lat}},{{this.geo.lng}}&key=AIzaSyCNzdCjIzSEfBv9U3VBzYT6EgoBzyiXW-g">
+                    </img>
+                </div>
             </article>
         {{/each}}
     </section>

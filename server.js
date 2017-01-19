@@ -28,7 +28,7 @@ app.set('view engine', 'hbs');
 
 // Routes
 app.get('/', function(req, res, next) {
-  res.render('index', {title: 'Where Am I?'});
+  res.render('index', {title: 'Geo Tools'});
 });
 
 app.get('/addressCoords', function(req, res, next) {
@@ -37,12 +37,14 @@ app.get('/addressCoords', function(req, res, next) {
 
 app.post('/save', function(req, res, next) {
   console.log(req);
+  var latlng = { lat: req.body.geo.split(',')[0], lng: req.body.geo.split(',')[1] };
   var location = {
     name: req.body.name,
     street: req.body.street,
     city: req.body.city,
     state: req.body.state,
-    zip: req.body.zip
+    zip: req.body.zip,
+    geo: latlng
   };
   mongo.connect(url, function(err, db) {
     if (err) throw err;
@@ -65,7 +67,7 @@ app.get('/get-data', function(req, res, next) {
       console.log('locations', doc);
     });
     db.close();
-    res.render('index', {title: 'Where Am I?', locations: arr});
+    res.render('index', {title: 'Geo Tools', locations: arr});
   });
 });
 
