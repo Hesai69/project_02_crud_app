@@ -5,7 +5,7 @@
 <div id="userLocation">
     <h3>Get Your Location Coordinates</h3>
     <form action="/addressCoords" method="get">
-        <button id="address-coords">Address Location</button>
+        <button id="address-coords">Address Location</button><span id="show-address-coords"></span>
         <input id="address-input" type="text" name="address" placeholder="enter an address">
     </form><br>
     <button id="user-coords">Your Geo Location</button><span id="show-user-coords"></span>
@@ -38,11 +38,24 @@
 </div>
 <div id="list-data">
     <h3>Read Database</h3>
-    <form>
-        <p><button id="get-data" type="button">GET DATA</button></p>
+    <form action="/get-data" method="get">
+        <p><button id="get-data" type="submit">GET DATA</button></p>
     </form>
-    <article id="add-data">
-        {{#each locations}}
+    <section id="add-data">
+        {{# each locations}}
+            <article>
+                <div><br></div>
+                <div>Name: {{ this.name }}</div>
+                <div>Street: {{ this.street }}</div>
+                <div>City: {{ this.city }}</div>
+                <div>State: {{ this.state }}</div>
+                <div>Zip: {{ this.zip }}</div>
+                <div><br></div>
+                <form action="/get-data/{{this._id}}/delete" method="post">
+                    <button id="delete" name="delete" value={{this._id}}>Delete</button>
+                </form>
+                <div><br></div>
+            </article>
         {{/each}}
-    </article>
+    </section>
 </div>

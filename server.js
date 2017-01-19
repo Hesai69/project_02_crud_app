@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb').MongoClient;
 var url = process.env.MONGODB_URI || 'mongodb://localhost:27017/Geo';
+var objectId = require('mongodb').ObjectID;
 var logger = require('morgan');
 var path = require('path');
 var hbs = require('express-handlebars');
@@ -26,15 +27,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // Routes
-app.get('/', function(req, res) {
+app.get('/', function(req, res, next) {
   res.render('index', {title: 'Where Am I?'});
 });
 
-app.get('/addressCoords', function(req, res) {
+app.get('/addressCoords', function(req, res, next) {
 
 });
 
-app.post('/save', function(req, res) {
+app.post('/save', function(req, res, next) {
   console.log(req);
   var location = {
     name: req.body.name,
@@ -54,27 +55,30 @@ app.post('/save', function(req, res) {
   });
 });
 
-// app.get('/data', function(req, res) {
-//   mongo.connect(url, function(err, db) {
-//     assert.equal(null, err);
-//     console.log('connected to db');
-//     db.collection('data').find().toArray(function(err, result) {
-//       db.close();
-//       res.send(JSON.stringify(result));
-//     });
-//   });
-// });
+app.get('/get-data', function(req, res, next) {
+  mongo.connect(url, function(err, db) {
+    if (err) throw err;
+    var arr = [];
+    var result = db.collection('locations').find();
+    result.forEach(function(doc) {
+      arr.push(doc);
+      console.log('locations', doc);
+    });
+    db.close();
+    res.render('index', {title: 'Where Am I?', locations: arr});
+  });
+});
 
-// router.get('/data/:id', function(req, res) {
-//   mongo.connect(url, function(err, db) {
-//     assert.equal(null, err);
-//     db.collection('data').findOne({ _id: objectId(req.params.id)}, function(err, result) {
-//       db.close();
-//       res.send(result);
-//     });
-//   });
-// });
-
+app.post('/get-data/:id/delete', function(req, res, next) {
+  mongo.connect(url, function(err, db) {
+    if (err) throw err;
+    var id = req.body.delete;
+    db.collection('locations').removeOne({'_id': objectId(id) });
+    console.log('Removed document Id: ' + id);
+    db.close();
+    res.redirect('/get-data');
+  });
+});
 
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
