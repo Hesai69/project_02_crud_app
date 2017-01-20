@@ -82,7 +82,16 @@ function initMap() {
       route.push(latlng);
       route.forEach(function(item){
         str += '{' + item.lat + ', ' + item.lng + '}';
-      })
+      });
+      var line = new google.maps.Polyline({
+        path: route,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+      line.setMap(map);
+
       document.getElementById('status').textContent = str;
       //$('#status').text('Started tracking route : ' + route);
       console.log('updated route', latlng);
@@ -94,8 +103,16 @@ function initMap() {
   });
   $('#stop-btn').on('click', function(evt) {
     $('#status').text('Stopped tracking');
-
     navigator.geolocation.clearWatch(watchid);
+    var runRoute = new google.maps.Polyline({
+      path: route,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+
+    runRoute.setMap(map);
     console.log(route);
   });
 }
