@@ -73,25 +73,26 @@ function initMap() {
   });
 
   $('#start-btn').on('click', function(evt) {
-    $('#status').text('Started tracking');
+    // $('#status').text('Started tracking');
     watchid = navigator.geolocation.watchPosition(function(position) {
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
       var latlng = {lat: latitude, lng: longitude};
       route.push(latlng);
+      $('#status').text('Started tracking route : ' + route);
       console.log('updated route', latlng);
     }, geo_error, {
     enableHighAccuracy: true,
     maximumAge: 1000,
     timeout: Infinity
-  });
+    });
   });
   $('#stop-btn').on('click', function(evt) {
     $('#status').text('Stopped tracking');
 
     navigator.geolocation.clearWatch(watchid);
     console.log(route);
-  })
+  });
 }
 
 function getReverse(latlng, appendTo) {
