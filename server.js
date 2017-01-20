@@ -47,7 +47,7 @@ app.post('/save', function(req, res, next) {
       if (err) throw err;
       console.log('Location saved to database');
       db.close();
-      res.redirect('/');
+      res.redirect('/get-data');
     });
   });
 });
