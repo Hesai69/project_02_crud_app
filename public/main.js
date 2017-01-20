@@ -94,9 +94,9 @@ function initMap() {
 
       document.getElementById('status').textContent = str;
       //$('#status').text('Started tracking route : ' + route);
-      console.log('updated route', latlng);
+      //console.log('updated route', latlng);
     }, geo_error, {
-    enableHighAccuracy: true,
+    enableHighAccuracy: false,
     maximumAge: 1000,
     timeout: Infinity
     });
@@ -113,7 +113,7 @@ function initMap() {
     });
 
     runRoute.setMap(map);
-    console.log(route);
+    //console.log(route);
   });
 }
 
