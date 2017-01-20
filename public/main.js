@@ -79,6 +79,8 @@ function initMap() {
       var longitude = position.coords.longitude;
       var latlng = {lat: latitude, lng: longitude};
       var str = 'Started tracking route : ';
+      removeMarkers();
+      addMarker(latlng, map, null);
       route.push(latlng);
       route.forEach(function(item){
         str += '{' + item.lat + ', ' + item.lng + '}';
