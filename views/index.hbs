@@ -1,73 +1,106 @@
+<div id="map"></div>
 <h1>{{title}}</h1>
-<div id="map">
 
+<div class="pure-g">
+    <div id="userLocation" class="pure-u-1-2">
+        <form class="pure-form pure-form-stacked">
+            <fieldset>
+                <legend class="legend">Get Your Coordinates</legend>
+                <div class="pure-control-group">
+                    <label for="address-input">Address</label>
+                    <input id="address-input" class="commands" type="text" name="address-input" placeholder="input address">
+                    <button id="address-coords" class="pure-button commands">Enter Address</button>
+                    <br><p id="show-address-coords"></p>
+                </div>
+                <div class="pure-form pure-form-aligned">
+                    <button id="check-address-reverse" class="pure-button commands">Check Address</button>
+                    <br><p id="show-address-reverse"></p>
+                </div>
+                <div class="pure-form pure-form-aligned">
+                    <button id="user-coords" class="pure-button commands">Get Geo Coordinates</button>
+                    <br><p id="user-coords-text"></p>
+                </div>
+                <div class="pure-form pure-form-aligned">
+                    <button id="user-coords-address" class="pure-button commands">Get Geo Address</button>
+                    <br><p id="user-coords-address-reverse"></p><br>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div id="save-data" class="pure-u-1-2">
+        <form id="save-loc" class="pure-form pure-form-aligned" action="/save" method="post">
+            <fieldset id="save-location">
+                <legend class="legend">Save A Location</legend>
+                <div class="pure-control-group input">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="save-loc" name="name">
+                </div>
+                <div class="pure-control-group input">
+                    <label for="street">Street</label>
+                    <input type="text" id="street" class="save-loc" name="street">
+                </div>
+                <div class="pure-control-group input">
+                    <label for="city">City</label>
+                    <input type="text" id="city" class="save-loc" name="city">
+                </div>
+                <div class="pure-control-group input">
+                    <label for="state">State</label>
+                    <input type="text" id="state" class="save-loc" name="state">
+                </div>
+                <div class="pure-control-group input">
+                    <label for="zip">Zip</label>
+                    <input type="text" id="zip" class="save-loc" name="zip">
+                </div>
+                <div class="pure-control-group input">
+                    <label for="geo">Geo</label>
+                    <input type="text" id="geo" class="save-loc" name="geo">
+                </div>
+                <div id="id-container" class="pure-control-group hidden">
+                    <label for="id">Id</label>
+                    <input type="text" id="id" class="save-loc" name="id">
+                </div>
+                <div class="pure-controls">
+                    <button id="submit-data" class="pure-button save-update" type="submit">Save Location</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </div>
-<div id="userLocation">
-    <h3>Get Your Location Coordinates</h3>
-    <button id="address-coords">Enter Address</button>
-    <input id="address-input" type="text" name="address" placeholder="enter address">
-    <br><p id="show-address-coords"></p>
-    <button id="check-address-reverse">Check Address</button>
-    <br><p id="show-address-reverse"></p>
-    <button id="user-coords">Get Geo Location</button>
-    <br><p id="user-coords-text"></p>
-    <button id="user-coords-address">Get Geo Address</button>
-    <br><p id="show-user-coords-address"></p><br>
+<div id="run">
+    <p>Track A Route</p>
+    <button id="start-btn" class="pure-button">Start</button>
+    <button id="stop-btn" class="pure-button">Stop</button>
+    <p id="status"></p>
 </div>
-<div id="save-data">
-    <h3>Save A Location</h3>
-    <form action="/save" method="post">
-        <div class="input">
-            <label for="name">Name :</label>
-            <input type="text" id="name" name="name">
-        </div>
-        <div class="input">
-            <label for="street">Street :</label>
-            <input type="text" id="street" name="street">
-        </div>
-        <div class="input">
-            <label for="city">City :</label>
-            <input type="text" id="city" name="city">
-        </div>
-        <div class="input">
-            <label for="state">State :</label>
-            <input type="text" id="state" name="state">
-        </div>
-        <div class="input">
-            <label for="zip">Zip :</label>
-            <input type="text" id="zip" name="zip">
-        </div>
-        <div class="input">
-            <label for="geo">Geo :</label>
-            <input type="text" id="geo" name="geo">
-        </div>
-        <p><button id="submit-data" type="submit">Save Location</button></p>
-    </form>
-</div>
+<br>
 <div id="list-data">
-    <h3>Read Database</h3>
     <form action="/get-data" method="get">
-        <p><button id="get-data" type="submit">GET DATA</button></p>
+        <legend>Database</legend>
+        <button id="get-data" class="pure-button" type="submit">GET DATA</button>
     </form>
     <section id="add-data">
-        {{# each locations}}
+        {{#each locations}}
             <article>
-                <div class="leftFrame">
-                    <div><br></div>
+                <br>
+                <div class="screenshot">
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{this.geo.lat}},{{this.geo.lng}}&zoom=15&size=300x200&markers=color:blue%7Clabel:{{this.name}}%7C{{this.geo.lat}},{{this.geo.lng}}&key=AIzaSyCNzdCjIzSEfBv9U3VBzYT6EgoBzyiXW-g">
+                    </img>
+                </div>
+                <div class="location">
                     <div>Name: {{ this.name }}</div>
                     <div>Street: {{ this.street }}</div>
                     <div>City: {{ this.city }}</div>
                     <div>State: {{ this.state }}</div>
                     <div>Zip: {{ this.zip }}</div>
-                    <div><br></div>
-                    <form action="/get-data/{{this._id}}/delete" method="post">
-                        <button id="delete" name="delete" value={{this._id}}>Delete</button>
-                    </form>
+                    <div class="hidden">Id: {{ this._id }}</div>
+                    <div>
+                        <button id="{{this._id}}" class="pure-button edit-delete" value="{{this._id}}">Edit</button>
+                        <form action="/get-data/{{this._id}}/delete" method="post">
+                            <button id="delete" class="pure-button edit-delete" name="delete" value={{this._id}}>Delete</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="rightFrame">
-                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{this.geo.lat}},{{this.geo.lng}}&zoom=15&size=400x200&markers=color:blue%7Clabel:{{this.name}}%7C{{this.geo.lat}},{{this.geo.lng}}&key=AIzaSyCNzdCjIzSEfBv9U3VBzYT6EgoBzyiXW-g">
-                    </img>
-                </div>
+                <br>
             </article>
         {{/each}}
     </section>

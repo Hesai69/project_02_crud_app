@@ -2,21 +2,43 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: lightblue;
 }
 
 #map {
-  height: 500px;
-  margin: 0 10%;
+  height: 400px;
+  margin: 0 auto;
 }
 
-.leftFrame {
-  width: 50%;
-  display: inline-block;
+.screenshot, .location{
+  display: block;
+  width: 80%;
+  margin: 0 auto;
 }
 
-.rightFrame {
+/*.location {
   display: inline-block;
-  width: 30%;
+  margin: 0 20%;
+}*/
+
+.commands {
+  width: 170px;
+}
+
+.save-loc, .save-update{
+  width: 175px;
+}
+
+.legend {
+  text-align: center;
+}
+
+.edit-delete {
+  display: inline;
+}
+
+.hidden {
+  display: none;
 }
 
 h1 {
