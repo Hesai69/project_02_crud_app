@@ -78,8 +78,13 @@ function initMap() {
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
       var latlng = {lat: latitude, lng: longitude};
+      var str = 'Started tracking route : ';
       route.push(latlng);
-      $('#status').text('Started tracking route : ' + route);
+      route.forEach(function(item){
+        str += '{' + item.lat + ', ' + item.lng + '}';
+      })
+      document.getElementById('status').textContent = str;
+      //$('#status').text('Started tracking route : ' + route);
       console.log('updated route', latlng);
     }, geo_error, {
     enableHighAccuracy: true,
