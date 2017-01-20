@@ -94,7 +94,7 @@ function initMap() {
       });
       line.setMap(map);
 
-      document.getElementById('status').textContent = str;
+      //document.getElementById('status').textContent = str;
       //$('#status').text('Started tracking route : ' + route);
       //console.log('updated route', latlng);
     }, geo_error, {
