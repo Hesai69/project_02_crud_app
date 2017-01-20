@@ -73,7 +73,7 @@ function initMap() {
   });
 
   $('#start-btn').on('click', function(evt) {
-    // $('#status').text('Started tracking');
+    $('#status').text('Started tracking');
     watchid = navigator.geolocation.watchPosition(function(position) {
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;

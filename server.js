@@ -97,7 +97,7 @@ app.post('/edit/:id', function(req, res) {
     };
     db.collection('locations').update({ '_id': objectId(req.params.id)}, location);
     db.close();
-    res.redirect('/');
+    res.redirect('/get-data');
   });
 });
 
@@ -108,7 +108,7 @@ app.post('/get-data/:id/delete', function(req, res, next) {
     db.collection('locations').removeOne({'_id': objectId(id) });
     console.log('Removed document Id: ' + id);
     db.close();
-    res.redirect('/');
+    res.redirect('/get-data');
   });
 });
 
