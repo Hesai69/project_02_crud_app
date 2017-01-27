@@ -28,7 +28,7 @@
         </form>
     </div>
     <div id="save-data" class="pure-u-1-2">
-        <form id="save-loc" class="pure-form pure-form-aligned" action="/save" method="post">
+        <form id="save-loc" class="pure-form pure-form-aligned" action="/locations/create" method="post">
             <fieldset id="save-location">
                 <legend class="legend">Save A Location</legend>
                 <div class="pure-control-group input">
@@ -74,7 +74,7 @@
 </div>
 <br>
 <div id="list-data">
-    <form action="/get-data" method="get">
+    <form action="/locations/get-data" method="get">
         <legend>Database</legend>
         <button id="get-data" class="pure-button" type="submit">GET DATA</button>
     </form>

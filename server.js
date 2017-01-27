@@ -30,7 +30,7 @@ app.get('/', function(req, res, next) {
   res.render('index', {title: 'Geo Tools'});
 });
 
-app.post('/save', function(req, res, next) {
+app.post('/locations/create', function(req, res, next) {
   console.log(req);
   var latlng = { lat: req.body.geo.split(',')[0], lng: req.body.geo.split(',')[1] };
   var location = {
@@ -47,12 +47,12 @@ app.post('/save', function(req, res, next) {
       if (err) throw err;
       console.log('Location saved to database');
       db.close();
-      res.redirect('/get-data');
+      res.redirect('/locations/get-data');
     });
   });
 });
 
-app.get('/get-data', function(req, res, next) {
+app.get('/locations/get-data', function(req, res, next) {
   mongo.connect(url, function(err, db) {
     if (err) throw err;
     var arr = [];
@@ -66,7 +66,7 @@ app.get('/get-data', function(req, res, next) {
   });
 });
 
-app.get('/edit/:id', function(req, res) {
+app.get('/locations/:id/edit', function(req, res) {
   mongo.connect(url, function(err, db) {
     if (err) throw err;
     console.log('id: ', req.params.id);
@@ -76,14 +76,14 @@ app.get('/edit/:id', function(req, res) {
     cursor.forEach(function(doc){
       arr.push(doc);
       console.log('doc', doc);
-    res.send(arr[0]);
     });
     db.close();
+    res.send(arr[0]);
     // console.log('arr', arr);
   });
 });
 
-app.post('/edit/:id', function(req, res) {
+app.post('/locations/:id/edit', function(req, res) {
   mongo.connect(url, function(err, db) {
     if (err) throw err;
     var latlng = { lat: req.body.geo.split(',')[0], lng: req.body.geo.split(',')[1] };
@@ -97,7 +97,7 @@ app.post('/edit/:id', function(req, res) {
     };
     db.collection('locations').update({ '_id': objectId(req.params.id)}, location);
     db.close();
-    res.redirect('/get-data');
+    res.redirect('/locations/get-data');
   });
 });
 
@@ -108,7 +108,7 @@ app.post('/get-data/:id/delete', function(req, res, next) {
     db.collection('locations').removeOne({'_id': objectId(id) });
     console.log('Removed document Id: ' + id);
     db.close();
-    res.redirect('/get-data');
+    res.redirect('/locations/get-data');
   });
 });
 

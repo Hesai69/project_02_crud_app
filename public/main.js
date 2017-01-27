@@ -59,7 +59,7 @@ function initMap() {
     getReverse(latlng, appendTo);
   });
   $('div.location').find('button').on('click', function(evt) {
-    $.get('/edit/' + $(this).attr('value'), function(res) {
+    $.get('/locations/' + $(this).attr('value') + '/edit', function(res) {
       $('#name').val(res.name);
       $('#street').val(res.street);
       $('#city').val(res.city);
@@ -67,7 +67,7 @@ function initMap() {
       $('#zip').val(res.zip);
       $('#geo').val(res.geo.lat + ', ' + res.geo.lng);
       $('#id').val(res._id);
-      $('#save-loc').attr({action: '/edit/' + $('#id').val(), method: 'post' });
+      $('#save-loc').attr({action: '/locations/' + $('#id').val() + '/edit', method: 'post' });
       $('#submit-data').text('Update Location');
     });
   });
@@ -93,10 +93,6 @@ function initMap() {
         strokeWeight: 2
       });
       line.setMap(map);
-
-      //document.getElementById('status').textContent = str;
-      //$('#status').text('Started tracking route : ' + route);
-      //console.log('updated route', latlng);
     }, geo_error, {
     enableHighAccuracy: false,
     maximumAge: 1000,
@@ -113,9 +109,7 @@ function initMap() {
       strokeOpacity: 1.0,
       strokeWeight: 2
     });
-
     runRoute.setMap(map);
-    //console.log(route);
   });
 }
 
