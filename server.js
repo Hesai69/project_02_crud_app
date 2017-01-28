@@ -53,15 +53,16 @@ app.post('/locations/create', function(req, res, next) {
 });
 
 app.get('/locations/get-data', function(req, res, next) {
+  var arr = [];
   mongo.connect(url, function(err, db) {
     if (err) throw err;
-    var arr = [];
     var result = db.collection('locations').find();
     result.forEach(function(doc) {
       arr.push(doc);
       console.log('locations', doc);
     });
     db.close();
+    // console.log(arr);
     res.render('index', {title: 'Geo Tools', locations: arr});
   });
 });
