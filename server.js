@@ -53,17 +53,21 @@ app.post('/locations/create', function(req, res, next) {
 });
 
 app.get('/locations/get-data', function(req, res, next) {
+  console.log('getting data');
   var arr = [];
   mongo.connect(url, function(err, db) {
     if (err) throw err;
-    var result = db.collection('locations').find();
-    result.forEach(function(doc) {
-      arr.push(doc);
-      console.log('locations', doc);
+    // var result =
+    db.collection('locations').find().toArray(function(err, result) {
+      console.log('array before render', result);
+      db.close();
+      res.render('index', {title: 'Geo Tools', locations: result});
     });
-    db.close();
-    // console.log(arr);
-    res.render('index', {title: 'Geo Tools', locations: arr});
+    // result.forEach(function(doc) {
+    //   console.log('locations', doc);
+    //   arr.push(doc);
+    //   console.log('array during forEach', arr);
+    // });
   });
 });
 
